@@ -1,0 +1,44 @@
+<ns eratosthenes-sieve.core
+  <~require |asi.string ~as str|>>
+
+//Eratosthenes Sieve
+<fun eratosthenes ||
+  <let |n 1000
+        primes <boolean-array n true>|
+    
+    // --- Sifting Process <proc sift> ---
+    <loop |i 0
+           index-square 3|
+      <when <'<' index-square n>
+        <when <aget primes i>
+          <let |factor <+ i i 3>|
+            // Mark composites <proc mark sieve>
+            <loop |first-idx index-square|
+              <when <'<' first-idx n>
+                <aset-boolean primes first-idx false>
+                <recur <+ first-idx factor>>>>>>
+        // Calculate next index using the formula: 2 * i * (i + 3) + 3
+        <let |next-i <inc i>
+              next-index-square <+ <* 2 next-i <+ next-i 3>> 3>|
+          <recur next-i next-index-square>>>>
+
+    // --- Output Phase <print out> ---
+    
+    // Generate odd primes from the sieve array where (2i + 3) <= n
+    <let |odd-primes <for |i <range n>
+                           ~let |num <+ <* 2 i> 3>|
+                           ~when <and <aget primes i> <'<=' num n>>|
+                       num>          
+          all-primes <cons 2 odd-primes>| // Prepend 2 to the list of primes
+      
+      // Print primes grouped into chunks of 10 per line
+      <doseq |chunk <partition-all 10 all-primes>|
+        <doseq |p chunk|
+          <print <str " " p>>>
+        <println>>
+      
+      // Print total count matching the original format
+      <println <str "\n number : " <count all-primes>>>>>>
+
+// To run the function:
+// <eratosthenes>
