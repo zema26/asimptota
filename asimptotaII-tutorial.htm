@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASImptota II: Language Specification & Design</title>
+    <!-- Tailwind CSS for modern, sleek UI styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- KaTeX for crisp mathematical rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+        body {
+            background-color: #030712;
+        }
+        /* Custom scrollbar tracking for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="text-slate-200 font-sans selection:bg-emerald-500/30 selection:text-emerald-300">
+
+    <!-- Header Navigation Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/70 border-b border-slate-800/80 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="h-8 w-8 bg-gradient-to-tr from-emerald-500 to-cyan-500 rounded-lg flex items-center justify-center font-bold text-slate-950 text-sm tracking-wider">
+                A2
+            </div>
+            <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
+                ASImptota II <span class="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 ml-1">v2.0</span>
+            </span>
+        </div>
+        <div class="text-xs font-mono text-slate-500 hidden md:block">
+            Target: TS7 &rarr; Native Go Binaries
+        </div>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sticky Sidebar Navigation Links -->
+        <aside class="w-64 fixed hidden lg:block h-[calc(100vh-69px)] bg-slate-950/40 p-6 border-r border-slate-900 overflow-y-auto">
+            <p class="text-xs font-bold text-slate-500 tracking-widest uppercase mb-4">Documentation</p>
+            <nav class="space-y-1">
+                <a href="#intro" class="block text-sm py-2 px-3 rounded-md text-emerald-400 bg-emerald-500/5 border-l-2 border-emerald-500 font-medium transition-all">Overview</a>
+                <a href="#core-semantics" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">1. Core Semantics</a>
+                <a href="#control-flow" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">2. Functional Control Flow</a>
+                <a href="#advanced-features" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">3. Advanced Features</a>
+                <a href="#code-showcase" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">4. Polynomial Showcase</a>
+                <a href="#eratosthenes-sieve" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">5. Eratosthenes Sieve</a>
+                <a href="#compilation-blueprint" class="block text-sm py-2 px-3 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 transition-all">6. TS7 Blueprint</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 lg:ml-64 px-6 md:px-12 lg:px-16 py-12 max-w-4xl">
+            
+            <!-- Intro / Welcome Section -->
+            <section id="intro" class="mb-16 scroll-mt-24">
+                <h1 class="text-4xl font-extrabold tracking-tight text-slate-100 sm:text-5xl mb-6">
+                    Language Specification & Design
+                </h1>
+                <p class="text-lg text-slate-400 leading-relaxed mb-6">
+                    Welcome to the evolution of <code class="text-cyan-400">ASI</code> development. While <em>ASImptota</em> laid the foundation with its HTML-inspired bracket syntax and blistering TypeScript 7 compilation speed, it still leaned heavily on imperative structures.
+                </p>
+                <div class="p-5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-900/60 border border-slate-800/80 shadow-xl">
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        <strong class="text-emerald-400 font-semibold">ASImptota II</strong> marries the distinctive HTML-bracket syntax of the original language with the powerful, immutable, and homoiconic semantics of <strong>Clojure</strong>. Because <strong>TypeScript 7</strong> compiles directly to optimized Go binaries, ASImptota II implements persistent, thread-safe data structures with near-zero performance overhead, making it the premier language for architecting <strong class="text-emerald-400 font-semibold">Artificial Super Intelligence</strong>.
+                    </p>
+                </div>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 1: Core Semantics & Data Structures -->
+            <section id="core-semantics" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-4 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">1.</span> Core Semantics & Data Structures
+                </h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    ASImptota II completely abandons mutable state. Every data structure is persistent and immutable. When you modify a structure, a new version is returned, sharing structural history behind the scenes to maximize efficiency.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">Data Literal Syntax</h3>
+                <div class="overflow-x-auto border border-slate-800/80 rounded-xl mb-8 bg-slate-950/40">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/80 text-slate-400 font-medium border-b border-slate-800">
+                                <th class="p-4">Structure</th>
+                                <th class="p-4">ASImptota II Syntax</th>
+                                <th class="p-4">Clojure Equivalent</th>
+                                <th class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-900 font-mono text-xs">
+                            <tr class="hover:bg-slate-900/30 transition-colors">
+                                <td class="p-4 font-sans font-semibold text-slate-300">List</td>
+                                <td class="p-4 text-emerald-400">&lt;a b c d&gt;</td>
+                                <td class="p-4 text-slate-400">'(a b c d)</td>
+                                <td class="p-4 font-sans text-slate-400">Singly-linked list. Growth happens at the <strong>head</strong>.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/30 transition-colors">
+                                <td class="p-4 font-sans font-semibold text-slate-300">Vector</td>
+                                <td class="p-4 text-emerald-400">|1 2 3 4|</td>
+                                <td class="p-4 text-slate-400">[1 2 3 4]</td>
+                                <td class="p-4 font-sans text-slate-400">Vector of values, not necessarily numeral.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/30 transition-colors">
+                                <td class="p-4 font-sans font-semibold text-slate-300">Map</td>
+                                <td class="p-4 text-emerald-400">/~name "alice" ~age 30/</td>
+                                <td class="p-4 text-slate-400">{:name "alice" :age 30}</td>
+                                <td class="p-4 font-sans text-slate-400">Key-value pairs. Keywords start with <code class="text-cyan-400 font-mono text-xs bg-slate-900 px-1 py-0.5 rounded">~</code>.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/30 transition-colors">
+                                <td class="p-4 font-sans font-semibold text-slate-300">Set</td>
+                                <td class="p-4 text-emerald-400">(~apple ~orange)</td>
+                                <td class="p-4 text-slate-400">#{:apple :orange}</td>
+                                <td class="p-4 font-sans text-slate-400">Unique collections of elements.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">The Sequence Abstraction</h3>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    Instead of specialized list-only operations, ASImptota II adopts Clojure’s sequence abstraction. Functions like <code class="text-emerald-400 font-mono bg-slate-900 px-1.5 py-0.5 rounded text-sm">head</code> and <code class="text-emerald-400 font-mono bg-slate-900 px-1.5 py-0.5 rounded text-sm">body</code> work universally across all collections.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-sm text-slate-400 mb-6">
+                    <li><code class="text-slate-300 font-mono">&lt;head coll&gt;</code>: Returns the first element.</li>
+                    <li><code class="text-slate-300 font-mono">&lt;body coll&gt;</code>: Returns a sequence of the remaining elements.</li>
+                    <li><code class="text-slate-300 font-mono">&lt;conj coll element&gt;</code>: Conses/conjoins an element to the collection based on its structural efficiency (at the front for Lists, at the end for Vectors).</li>
+                </ul>
+
+                <div class="relative group">
+                    <div class="absolute right-4 top-4 text-xs font-mono text-slate-600 opacity-60">ASImptota</div>
+                    <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed shadow-inner"><code><span class="text-slate-500">// Keywords act as functions when applied to maps</span>
+&lt;let user /~name "Alice" ~role "ASI"/
+  &lt;~name user&gt;&gt; 
+<span class="text-slate-500">// Returns "Alice"</span>
+
+<span class="text-slate-500">// Universal sequence handling</span>
+&lt;head |1 2 3|&gt; <span class="text-slate-500">; Returns 1</span>
+&lt;body |1 2 3|&gt; <span class="text-slate-500">; Returns |2 3|</span></code></pre>
+                </div>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 2: Functional Control Flow & Local Bindings -->
+            <section id="control-flow" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-4 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">2.</span> Functional Control Flow & Local Bindings
+                </h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    Gone are the imperative <code class="text-slate-300 font-mono text-sm">&lt;let &lt;a 5&gt;&gt;</code> block chains. ASImptota II utilizes Clojure-style vector blocks for local variable definitions, allowing clean, parallel block evaluation.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">Functions and Anonymous Lambdas</h3>
+                <ul class="list-disc list-inside space-y-2 text-sm text-slate-400 mb-6">
+                    <li><code class="text-slate-300 font-mono">fun</code>: Defines a named, globally accessible function.</li>
+                    <li><code class="text-slate-300 font-mono">lambda</code>: Creates an anonymous lambda function.</li>
+                </ul>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed mb-8 shadow-inner"><code><span class="text-slate-500">// Named function</span>
+&lt;fun square |x| &lt;* x x&gt;&gt;
+
+<span class="text-slate-500">// Anonymous function mapped over a vector</span>
+&lt;map &lt;lambda |x| &lt;* x 2&gt;&gt; |1 2 3|&gt;
+<span class="text-slate-500">// Returns |2 4 6|</span></code></pre>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">Tail-Call Optimization: <code class="text-cyan-400">loop</code> and <code class="text-cyan-400">recur</code></h3>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    To prevent stack overflows in TS7, ASImptota II replaces the original <code class="text-slate-300 font-mono text-sm">repeat</code> and <code class="text-slate-300 font-mono text-sm">iterate</code> loops with functional tail-recursion via <code class="text-slate-300 font-mono text-sm">loop</code> and <code class="text-slate-300 font-mono text-sm">recur</code>.
+                </p>
+
+                <blockquote class="border-l-4 border-cyan-500/50 bg-cyan-500/5 p-4 rounded-r-xl mb-4 text-sm text-slate-300">
+                    <strong class="text-cyan-400 font-semibold">Example Architecture:</strong> Euclidean GCD Algorithm implemented natively using immutable tail-recursion.
+                </blockquote>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed shadow-inner"><code>&lt;fun euclid |a b|
+  &lt;loop |x a y b|
+    &lt;if &lt;= y 0&gt;
+      x
+      &lt;recur y &lt;rem x y&gt;&gt;&gt;&gt;&gt;</code></pre>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 3: Advanced Clojure Power Features -->
+            <section id="advanced-features" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-4 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">3.</span> Advanced Clojure Power Features
+                </h2>
+                
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">Vector & Map Destructuring</h3>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    Binding variables directly out of deeply nested data structures is designed to be highly declarative and syntactically explicit.
+                </p>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed mb-8 shadow-inner"><code><span class="text-slate-500">// Destructuring a vector</span>
+&lt;let &lt;first-item second-item&gt; &lt;body |1 2 3 4|&gt;
+  &lt;+ first-item second-item&gt;&gt;
+<span class="text-slate-500">// Evaluates to: 2 + 3 = 5</span>
+
+<span class="text-slate-500">// Destructuring a map</span>
+&lt;let &lt;/~name user-name ~age user-age/ /~name "Bob" ~age 42/&gt;
+  &lt;str user-name " is " user-age " cycles old."&gt;&gt;
+<span class="text-slate-500">// Returns "Bob is 42 cycles old."</span></code></pre>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">State Management via Atoms</h3>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    Because ASImptota II is strictly immutable, shared mutable state is explicitly containerized using <code class="text-slate-300 font-mono text-sm">atom</code> models, matching Clojure's software transactional memory principles.
+                </p>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed mb-8 shadow-inner"><code>&lt;let &lt;global-counter &lt;atom 0&gt;&gt;
+  &lt;swap! global-counter inc&gt;
+  &lt;@ global-counter&gt;&gt; 
+<span class="text-slate-500">// Returns 1 (@ acts as the dereference macro)</span></code></pre>
+
+                <h3 class="text-lg font-semibold text-slate-200 mb-3">Macro System (Homoiconicity)</h3>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    Because code is structurally written using uniform lists <code class="text-slate-300 font-mono">&lt;...&gt;</code> and vectors <code class="text-slate-300 font-mono">|...|</code>, programs can programmatically manipulate underlying abstracts before final compilation.
+                </p>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed shadow-inner"><code>&lt;macro unless <span class="text-cyan-400">&lt;pred form&gt;</span>
+  &lt;if pred nil form&gt;&gt;</code></pre>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 4: Comprehensive Code Showcase -->
+            <section id="code-showcase" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-4 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">4.</span> Comprehensive Code Showcase
+                </h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    Let's explore a functional rewrite of the classic polynomial computation <span class="text-slate-100 font-serif text-base">x^2 + 2x + 1</span>. Instead of standard imperative matrix index tracking (<code class="text-slate-300 font-mono text-sm">polynom|i||0|</code>), we leverage functional reduction, map destructuring, and sequence transformations.
+                </p>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed shadow-inner"><code><span class="text-slate-500">// Pure functional power computation using tail recursion</span>
+&lt;fun power &lt;base exp&gt;
+  &lt;loop |acc 1 e exp|
+    &lt;if &lt;&lt;= e 0&gt;
+      acc
+      &lt;recur &lt;* acc base&gt; &lt;- e 1&gt;&gt;&gt;&gt;&gt;
+
+<span class="text-slate-500">// Computes a single polynomial term: coef * (x ^ exp)</span>
+&lt;fun calc-term &lt;x term&gt;
+  &lt;let |/~coef c ~exp e/ term|
+    &lt;* c &lt;power x e&gt;&gt;&gt;&gt;
+
+<span class="text-slate-500">// Evaluates the entire polynomial sequence for a given x</span>
+&lt;fun calculate |poly x|
+  &lt;reduce 
+    &lt;lambda |sum term| &lt;+ sum &lt;calc-term x term&gt;&gt;&gt; 
+    0 
+    poly&gt;&gt;
+
+<span class="text-slate-500">// --- Execution Context ---</span>
+
+<span class="text-slate-500">// Define the polynomial: x^2 + 2x + 1</span>
+&lt;let |my-poly |/~coef 1 ~exp 2/ 
+               /~coef 2 ~exp 1/ 
+               /~coef 1 ~exp 0/|
+      x-val 5|
+  &lt;out &lt;calculate my-poly x-val&gt;&gt;&gt;
+<span class="text-slate-500">// Outputs: 36 (5^2 + 2*5 + 1)</span></code></pre>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 5: Eratosthenes Sieve -->
+            <section id="eratosthenes-sieve" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-4 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">5.</span> Eratosthenes Sieve
+                </h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    To maintain optimized structural performance (utilizing a packed array representing only odd numbers alongside custom mapping operations), this module combines <code class="text-cyan-400">ASImptota II's</code> explicit boolean-array and loop/recur models with high-level sequence operations.
+                </p>
+
+                <pre class="bg-slate-900 border border-slate-800/80 rounded-xl p-5 overflow-x-auto text-sm font-mono text-emerald-400/90 leading-relaxed shadow-inner"><code>&lt;ns eratosthenes-sieve.core
+  &lt;~require |asi.string ~as str|&gt;&gt;
+
+<span class="text-slate-500">// Eratosthenes Sieve Algorithm</span>
+&lt;fun eratosthenes ||
+  &lt;let |n 1000
+        primes &lt;boolean-array n true&gt;|
+    
+    <span class="text-slate-500">// --- Sifting Process &lt;proc sift&gt; ---</span>
+    &lt;loop |i 0
+           index-square 3|
+      &lt;when &lt;'&lt;' index-square n&gt;
+        &lt;when &lt;aget primes i&gt;
+          &lt;let |factor &lt;+ i i 3&gt;|
+            <span class="text-slate-500">// Mark composites &lt;proc mark sieve&gt;</span>
+            &lt;loop |first-idx index-square|
+              &lt;when &lt;'&lt;' first-idx n&gt;
+                &lt;aset-boolean primes first-idx false&gt;
+                &lt;recur &lt;+ first-idx factor&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+        <span class="text-slate-500">// Calculate next index using the formula: 2 * i * (i + 3) + 3</span>
+        &lt;let |next-i &lt;inc i&gt;
+              next-index-square &lt;+ &lt;* 2 next-i &lt;+ next-i 3&gt;&gt; 3&gt;|
+          &lt;recur text-i next-index-square&gt;&gt;&gt;&gt;
+
+    <span class="text-slate-500">// --- Output Phase &lt;print out&gt; ---</span>
+    
+    <span class="text-slate-500">// Generate odd primes from the sieve array where (2i + 3) &lt;= n</span>
+    &lt;let |odd-primes &lt;for |i &lt;range n&gt;
+                           ~let |num &lt;+ &lt;* 2 i&gt; 3&gt;|
+                           ~when &lt;and &lt;aget primes i&gt; &lt;'&lt;=' num n&gt;&gt;|
+                       num&gt;          
+          all-primes &lt;cons 2 odd-primes&gt;| <span class="text-slate-500">// Prepend 2 to the list of primes</span>
+      
+      <span class="text-slate-500">// Print primes grouped into chunks of 10 per line</span>
+      &lt;doseq |chunk &lt;partition-all 10 all-primes&gt;|
+        &lt;doseq |p chunk|
+          &lt;print &lt;str " " p&gt;&gt;&gt;
+        &lt;println&gt;&gt;
+      
+      <span class="text-slate-500">// Print total count matching the original format</span>
+      &lt;println &lt;str "\n number : " &lt;count all-primes&gt;&gt;&gt;&gt;&gt;&gt;
+
+<span class="text-slate-500">// To execute:</span>
+<span class="text-slate-500">// &lt;eratosthenes&gt;</span></code></pre>
+            </section>
+
+            <hr class="border-slate-900 my-12">
+
+            <!-- Section 6: Compilation Blueprint to TypeScript 7 -->
+            <section id="compilation-blueprint" class="mb-16 scroll-mt-24">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight mb-6 flex items-center gap-2">
+                    <span class="text-emerald-500 font-mono text-lg">6.</span> Compilation Blueprint to TypeScript 7
+                </h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    When transpiled, ASImptota II interfaces directly with the native Go-runtime constructs exposed inside TS7:
+                </p>
+
+                <div class="space-y-4">
+                    <div class="p-5 rounded-xl bg-slate-900/40 border border-slate-900 hover:border-slate-800/80 transition-all flex gap-4">
+                        <div class="text-emerald-400 font-mono font-bold text-sm bg-emerald-500/5 h-8 w-8 rounded-lg flex items-center justify-center shrink-0 border border-emerald-500/10">01</div>
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-1 text-sm">Immutability Integration</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">Persistent vectors translate directly to Go slice pointers with structural sharing, bypassing the old V8 garbage collection overhead entirely.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-slate-900/40 border border-slate-900 hover:border-slate-800/80 transition-all flex gap-4">
+                        <div class="text-emerald-400 font-mono font-bold text-sm bg-emerald-500/5 h-8 w-8 rounded-lg flex items-center justify-center shrink-0 border border-emerald-500/10">02</div>
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-1 text-sm">Tail Call Erasure</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">The <code class="text-slate-300 font-mono">loop</code>/<code class="text-slate-300 font-mono">recur</code> framework is compiled into a high-performance, native Go <code class="text-slate-300 font-mono">for</code> loop block inside the TS7 final output, ensuring zero call-stack overhead.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-slate-900/40 border border-slate-900 hover:border-slate-800/80 transition-all flex gap-4">
+                        <div class="text-emerald-400 font-mono font-bold text-sm bg-emerald-500/5 h-8 w-8 rounded-lg flex items-center justify-center shrink-0 border border-emerald-500/10">03</div>
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-1 text-sm">Keywords Map Optimization</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed"><code class="text-slate-300 font-mono">~keyword</code> forms transpile to unique, deeply-cached integer hashes within the TS7 engine, converting map key lookups into lightning-fast structural pointer matching.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Active highlight updating logic for sidebar links -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const sidebarLink = document.querySelector(`aside nav a[href="#${id}"]`);
+                    if (!sidebarLink) return;
+                    
+                    if (entry.intersectionRatio > 0) {
+                        document.querySelectorAll('aside nav a').forEach(a => {
+                            a.classList.remove('text-emerald-400', 'bg-emerald-500/5', 'border-l-2', 'border-emerald-500', 'font-medium');
+                            a.classList.add('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-900/50');
+                        });
+                        sidebarLink.classList.add('text-emerald-400', 'bg-emerald-500/5', 'border-l-2', 'border-emerald-500', 'font-medium');
+                        sidebarLink.classList.remove('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-900/50');
+                    }
+                });
+            }, { rootMargin: '-20% 0px -60% 0px' });
+
+            document.querySelectorAll('section[id]').forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
