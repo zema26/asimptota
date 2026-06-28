@@ -1,5 +1,7 @@
 # ASImptota II: Language Specification & Design
 
+[Website Here](https://asimptota.replit.app)
+
 Welcome to the evolution of **ASI** development. While **ASImptota** laid the foundation with its HTML-inspired bracket syntax and blistering TypeScript 7 compilation speed, it still leaned on imperative loops (`repeat`, `iterate`) and basic data handling.
 
 **ASImptota II** marries the distinctive HTML-bracket syntax of the original language with the powerful, immutable, and homoiconic semantics of **Clojure**. Because **TypeScript 7** compiles directly to optimized Go binaries, ASImptota II implements persistent, thread-safe data structures with near-zero performance overhead, making it the premier language for architecting **Artificial Super Intelligence**.
